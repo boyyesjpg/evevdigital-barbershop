@@ -224,32 +224,63 @@ body {
   margin-top: 22px;
 }
 
-.def-list-dots dl,
-.evev-info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 16px;
-  border-bottom: 1px dotted var(--border-strong);
-  padding-bottom: 8px;
+.def-list-dots {
+  padding-left: 0 !important;
 }
 
-.def-list-dots dt,
+.def-list-dots dl,
+.evev-info-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: baseline !important;
+  gap: 14px !important;
+  margin-bottom: 16px !important;
+  border-bottom: 1px dotted var(--border-strong) !important;
+  padding-bottom: 8px !important;
+  width: 100% !important;
+}
+
+.def-list-dots dt {
+  display: block !important;
+  width: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  flex: 1 1 auto !important;
+  text-align: left !important;
+  font-weight: 600 !important;
+  font-size: 15.5px !important;
+  color: var(--text-primary) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.def-list-dots dt:after {
+  display: none !important;
+  content: "" !important;
+  width: 0 !important;
+}
+
 .def-list-dots dt span,
 .evev-info-label {
-  font-weight: 600;
-  font-size: 15.5px;
+  display: inline !important;
+  font-weight: 600 !important;
+  font-size: 15.5px !important;
   color: var(--text-primary) !important;
+  background: transparent !important;
+  padding: 0 !important;
 }
 
 .def-list-dots dd,
 .evev-info-value {
-  font-weight: 800;
-  font-size: 15.5px;
+  display: block !important;
+  flex: 0 0 auto !important;
+  font-weight: 800 !important;
+  font-size: 15.5px !important;
   color: var(--accent-text) !important;
-  margin: 0;
-  white-space: nowrap;
+  margin: 0 !important;
+  padding-left: 8px !important;
+  white-space: nowrap !important;
+  text-align: right !important;
 }
 
 .evev-info-value-wrap {

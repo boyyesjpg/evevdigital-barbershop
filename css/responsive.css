@@ -118,8 +118,14 @@
 
   .def-list-dots dl,
   .evev-info-row {
-    flex-wrap: wrap;
-    gap: 6px 12px;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+  }
+
+  .def-list-dots dt {
+    max-width: none !important;
+    overflow: visible !important;
+    flex: 1 1 auto !important;
   }
 
   .def-list-dots dt,
@@ -127,7 +133,7 @@
   .def-list-dots dd,
   .evev-info-label,
   .evev-info-value {
-    font-size: 14.5px !important;
+    font-size: 14px !important;
   }
 
   .credential-pill {
