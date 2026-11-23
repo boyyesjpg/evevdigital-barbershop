@@ -1,30 +1,220 @@
-/* Responsive Css & Mobile Optimization (360px - 414px) - Barbershop & Grooming Lounge */
-@media only screen and (max-width: 480px) {
-  html, body {
+/* ==========================================================================
+   Responsive CSS & Mobile Bento-Grid Optimization (360px - 414px)
+   Barbershop & Grooming Lounge - evevbarber
+   ========================================================================== */
+
+@media only screen and (max-width: 992px) {
+  html,
+  body,
+  #wrapper,
+  #content {
     overflow-x: hidden !important;
     max-width: 100vw !important;
   }
-  .theme-btn, .btn, a.theme-btn, button[type="submit"] {
+
+  .header-cta-desktop {
+    display: none !important;
+  }
+
+  header.header-center #logo-center {
+    text-align: left !important;
+    padding: 8px 0 0 !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  /* 1. Anti Horizontal Overflow & Gutter Safety */
+  html,
+  body,
+  #wrapper,
+  #content,
+  section {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  .container,
+  .container-fluid {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .row.gx-5 {
+    --bs-gutter-x: 1rem !important;
+    margin-left: calc(-0.5 * var(--bs-gutter-x)) !important;
+    margin-right: calc(-0.5 * var(--bs-gutter-x)) !important;
+  }
+
+  /* 2. Tipografi & Spasi Vertikal Nyaman untuk Layar 360px - 414px */
+  section {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
+  section#hero,
+  #hero .carousel-item {
+    min-height: auto !important;
+    padding-top: 96px !important;
+    padding-bottom: 56px !important;
+  }
+
+  section#hero h1 {
+    font-size: 30px !important;
+    line-height: 1.22 !important;
+    margin-bottom: 14px !important;
+  }
+
+  section h2 {
+    font-size: 26px !important;
+    line-height: 1.25 !important;
+  }
+
+  section h3 {
+    font-size: 21px !important;
+  }
+
+  p.lead {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* 3. Mobile Bento-Grid: 1 Kolom Rapi & Proporsional */
+  .evev-bento-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .evev-bento-grid > [class*="col-"],
+  #gallery > .item {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: 0 0 100% !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .evev-card,
+  .d-sch-table,
+  .de_testi,
+  .evev-form-card {
+    border-radius: 16px !important;
+  }
+
+  .d-sch-table,
+  .evev-form-card {
+    padding: 22px 16px !important;
+  }
+
+  .de_testi {
+    padding: 20px 18px !important;
+  }
+
+  .evev-service-body {
+    padding: 18px !important;
+  }
+
+  .def-list-dots dl,
+  .evev-info-row {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+  }
+
+  .def-list-dots dt,
+  .def-list-dots dt span,
+  .def-list-dots dd,
+  .evev-info-label,
+  .evev-info-value {
+    font-size: 14.5px !important;
+  }
+
+  .credential-pill {
+    width: 100%;
+    justify-content: flex-start;
+    margin: 4px 0 !important;
+    text-align: left;
+  }
+
+  /* 4. Thumb-Friendly CTA (Tinggi Minimal 48px & Mudah Dijangkau Ibu Jari) */
+  .btn-main,
+  a.btn-main,
+  button.btn-main,
+  .btn-line,
+  a.btn-line,
+  .theme-btn,
+  .btn,
+  a.theme-btn,
+  button[type="submit"] {
     min-height: 48px !important;
+    padding: 12px 18px !important;
+    font-size: 14.5px !important;
+    font-weight: 800 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
     touch-action: manipulation;
   }
-  #evev-template-switcher {
-    bottom: 12px !important;
-    padding: 6px 10px !important;
-    gap: 4px !important;
-    max-width: 95vw !important;
+
+  .evev-cta-group {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 10px !important;
   }
-  #evev-template-switcher > span {
+
+  .evev-cta-group .btn-main,
+  .evev-cta-group .btn-line {
+    width: 100% !important;
+  }
+
+  .theme-toggle-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 17px !important;
+  }
+
+  /* 5. Floating Action Bar Anti-Tumpuk di 360px - 414px */
+  #evev-template-switcher {
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100vw - 20px) !important;
+    max-width: 394px !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    justify-content: space-between !important;
+  }
+
+  #evev-template-switcher .switcher-label {
     display: none !important;
   }
+
   #evev-template-switcher .switcher-pill {
-    padding: 6px 10px !important;
+    flex: 1 1 0 !important;
+    text-align: center !important;
+    padding: 8px 6px !important;
+    min-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     font-size: 11px !important;
     white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .evev-wa-float {
+    bottom: 66px !important;
+    right: 12px !important;
+    min-height: 48px !important;
+    padding: 0 16px !important;
+    font-size: 13.5px !important;
+    border-radius: 999px !important;
+  }
+
+  .evev-footer {
+    padding-bottom: 140px !important;
   }
 }

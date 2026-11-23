@@ -1,60 +1,80 @@
 /**
- * EvEvDigital Dual Theme Toggle Engine for Blaxcut Barbershop
+ * EvEvDigital Dual Theme Toggle Engine - evevbarber
+ * Mendukung penyimpanan aman, anti-FOUC, dan sinkronisasi ARIA.
  */
 
 (function () {
-  'use strict';
+  "use strict";
 
-  var THEME_KEY = 'evevdigital_blaxcut_theme';
+  var THEME_KEY = "evevdigital_evevbarber_theme";
 
-  function getPreferredTheme() {
-    var stored = localStorage.getItem(THEME_KEY);
-    if (stored) return stored;
-    return 'dark'; // Barbershop default dark
+  function safeGetStorage(key) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
   }
 
-  function applyTheme(theme) {
-    if (theme === 'light') {
-      document.body.classList.remove('dark-scheme');
-      document.body.classList.add('light-scheme');
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.body.classList.remove('light-scheme');
-      document.body.classList.add('dark-scheme');
-      document.documentElement.setAttribute('data-theme', 'dark');
+  function safeSetStorage(key, value) {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (e) {
+      // Abaikan jika browser memblokir storage (mode privat/file://)
     }
-    localStorage.setItem(THEME_KEY, theme);
-    updateButtons(theme);
+  }
+
+  function getPreferredTheme() {
+    var stored = safeGetStorage(THEME_KEY);
+    if (stored === "light" || stored === "dark") {
+      return stored;
+    }
+    if (window.PROFIL_USAHA && (window.PROFIL_USAHA.temaDefault === "light" || window.PROFIL_USAHA.temaDefault === "dark")) {
+      return window.PROFIL_USAHA.temaDefault;
+    }
+    return "dark";
   }
 
   function updateButtons(theme) {
-    var buttons = document.querySelectorAll('#theme-toggle, .theme-toggle-btn');
+    var isLight = theme === "light";
+    var buttons = document.querySelectorAll("#theme-toggle, .theme-toggle-btn");
     buttons.forEach(function (btn) {
-      if (theme === 'light') {
-        btn.innerHTML = '<i class="fa fa-moon-o"></i>';
-        btn.setAttribute('title', 'Ganti ke Mode Gelap (Dark Mode)');
-        btn.setAttribute('aria-label', 'Ganti ke Mode Gelap');
-      } else {
-        btn.innerHTML = '<i class="fa fa-sun-o"></i>';
-        btn.setAttribute('title', 'Ganti ke Mode Terang (Light Mode)');
-        btn.setAttribute('aria-label', 'Ganti ke Mode Terang');
-      }
+      btn.innerHTML = isLight
+        ? '<i class="fa fa-moon-o" aria-hidden="true"></i>'
+        : '<i class="fa fa-sun-o" aria-hidden="true"></i>';
+      btn.setAttribute("title", isLight ? "Ganti ke Mode Gelap (Dark Mode)" : "Ganti ke Mode Terang (Light Mode)");
+      btn.setAttribute("aria-label", isLight ? "Ganti ke Mode Gelap" : "Ganti ke Mode Terang");
+      btn.setAttribute("aria-pressed", isLight ? "true" : "false");
     });
   }
 
-  function toggleTheme() {
-    var isLight = document.body.classList.contains('light-scheme');
-    var next = isLight ? 'dark' : 'light';
-    applyTheme(next);
+  function applyTheme(theme) {
+    var normalized = theme === "light" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", normalized);
+
+    if (document.body) {
+      document.body.classList.toggle("light-scheme", normalized === "light");
+      document.body.classList.toggle("dark-scheme", normalized === "dark");
+    }
+
+    safeSetStorage(THEME_KEY, normalized);
+    updateButtons(normalized);
   }
 
-  var initTheme = getPreferredTheme();
+  function toggleTheme() {
+    var current = document.documentElement.getAttribute("data-theme") || "dark";
+    applyTheme(current === "light" ? "dark" : "light");
+  }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  // Terapkan atribut data-theme seawal mungkin untuk mencegah kedipan (FOUC)
+  var initTheme = getPreferredTheme();
+  document.documentElement.setAttribute("data-theme", initTheme);
+
+  document.addEventListener("DOMContentLoaded", function () {
     applyTheme(initTheme);
 
-    document.addEventListener('click', function (e) {
-      var btn = e.target.closest('#theme-toggle, .theme-toggle-btn');
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest("#theme-toggle, .theme-toggle-btn");
       if (btn) {
         e.preventDefault();
         toggleTheme();

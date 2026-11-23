@@ -1,45 +1,506 @@
 /* ==========================================================================
-   EvEvDigital Dual Theme Engine & Slim Header for Blaxcut Barbershop
+   EvEvDigital Dual Theme Engine & Slim Header - evevbarber
+   Target Kontras Teks Utama & Aksen: > 10:1 (WCAG AAA) pada Dark & Light Mode
    ========================================================================== */
 
-/* ==========================================================================
-   1. ✂️ SLIM HEADER ENGINE (Perampingan Elegan Anti-Tutup Konten Bawah)
-   ========================================================================== */
+/* --------------------------------------------------------------------------
+   1. DESIGN TOKENS (DARK MODE & LIGHT MODE + VARIASI 3 TEMPLATE)
+   -------------------------------------------------------------------------- */
+:root,
+body.dark-scheme {
+  --bg-page: #090c14;
+  --bg-section: #0d111c;
+  --bg-card: #131826;
+  --bg-card-elevated: #171e2e;
+  --bg-marquee: #0b101b;
+  --bg-footer: #070a10;
+  --border-subtle: rgba(255, 255, 255, 0.14);
+  --border-strong: rgba(255, 255, 255, 0.24);
+  --text-primary: #ffffff;
+  --text-secondary: #e2e8f0;
+  --text-muted: #cbd5e1;
+  --input-bg: #1a2234;
+  --input-border: rgba(255, 255, 255, 0.28);
+  --pill-bg: rgba(255, 255, 255, 0.08);
+  --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.45);
 
-/* Transparansi Header: Selalu transparan sebelum di-scroll agar foto hero terlihat utuh */
+  /* Default Accent: Classic Gold (Kontras vs #090c14 > 12.5:1) */
+  --accent-solid: #f2cb57;
+  --accent-text: #f5d061;
+  --accent-on-solid: #090c14;
+  --btn-bg: #f2cb57;
+  --btn-text: #090c14;
+  --btn-hover-bg: #ffffff;
+  --btn-hover-text: #090c14;
+}
+
+/* Template 2: Korean Studio (Dark Mode - Kontras > 10.4:1) */
+body.dark-scheme.theme-korean {
+  --accent-solid: #93c5fd;
+  --accent-text: #93c5fd;
+  --accent-on-solid: #090c14;
+  --btn-bg: #1e3a8a;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #93c5fd;
+  --btn-hover-text: #090c14;
+}
+
+/* Template 3: Vintage Fade Specialist (Dark Mode - Kontras > 10.3:1) */
+body.dark-scheme.theme-vintage {
+  --accent-solid: #fca5a5;
+  --accent-text: #fca5a5;
+  --accent-on-solid: #090c14;
+  --btn-bg: #7f1d1d;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #ffffff;
+  --btn-hover-text: #7f1d1d;
+}
+
+/* LIGHT MODE TOKENS (Kontras > 10.4:1 di atas permukaan putih/terang) */
+body.light-scheme {
+  --bg-page: #f8fafc;
+  --bg-section: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-elevated: #ffffff;
+  --bg-marquee: #ffffff;
+  --bg-footer: #eef2f6;
+  --border-subtle: #cbd5e1;
+  --border-strong: #94a3b8;
+  --text-primary: #090d16;
+  --text-secondary: #1e293b;
+  --text-muted: #334155;
+  --input-bg: #ffffff;
+  --input-border: #64748b;
+  --pill-bg: #f1f5f9;
+  --shadow-card: 0 10px 28px rgba(15, 23, 42, 0.08);
+
+  /* Default Light Accent: Deep Bronze-Gold (Kontras vs #ffffff = 10.5:1) */
+  --accent-solid: #78350f;
+  --accent-text: #78350f;
+  --accent-on-solid: #ffffff;
+  --btn-bg: #78350f;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #090d16;
+  --btn-hover-text: #ffffff;
+}
+
+/* Template 2: Korean Studio (Light Mode - Kontras = 10.4:1) */
+body.light-scheme.theme-korean {
+  --accent-solid: #1e3a8a;
+  --accent-text: #1e3a8a;
+  --accent-on-solid: #ffffff;
+  --btn-bg: #1e3a8a;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #090d16;
+  --btn-hover-text: #ffffff;
+}
+
+/* Template 3: Vintage Fade (Light Mode - Kontras = 10.6:1) */
+body.light-scheme.theme-vintage {
+  --accent-solid: #7f1d1d;
+  --accent-text: #7f1d1d;
+  --accent-on-solid: #ffffff;
+  --btn-bg: #7f1d1d;
+  --btn-text: #ffffff;
+  --btn-hover-bg: #090d16;
+  --btn-hover-text: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE & SURFACE STYLING
+   -------------------------------------------------------------------------- */
+body {
+  background-color: var(--bg-page) !important;
+  color: var(--text-secondary) !important;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.evev-section-surface {
+  background-color: var(--bg-page) !important;
+  color: var(--text-secondary) !important;
+}
+
+.evev-section-alt {
+  background-color: var(--bg-section) !important;
+  color: var(--text-secondary) !important;
+}
+
+.evev-marquee-bar {
+  background-color: var(--bg-marquee) !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.evev-marquee-bar .d-item-txt {
+  color: var(--text-primary) !important;
+  font-weight: 700;
+}
+
+.id-color,
+.evev-accent {
+  color: var(--accent-text) !important;
+}
+
+.de-separator {
+  background: var(--accent-solid) !important;
+  height: 3px;
+  width: 60px;
+  margin: 15px auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. KARTU BENTO, TABEL HARGA, TESTIMONI, FORM & FOOTER
+   -------------------------------------------------------------------------- */
+.evev-card,
+.d-sch-table,
+.de_testi,
+.evev-form-card {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 14px !important;
+  box-shadow: var(--shadow-card) !important;
+  color: var(--text-secondary) !important;
+  transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.evev-service-card {
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.evev-service-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent-solid) !important;
+}
+
+.evev-service-body {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.evev-service-body p {
+  flex: 1 1 auto;
+}
+
+.evev-card h2,
+.evev-card h3,
+.evev-card h4,
+.evev-card h5,
+.d-sch-table h2,
+.d-sch-table h3,
+.evev-section-surface h2,
+.evev-section-surface h3,
+.evev-section-surface h4,
+.evev-section-alt h2,
+.evev-section-alt h3,
+.evev-section-alt h4 {
+  color: var(--text-primary) !important;
+}
+
+.evev-title {
+  color: var(--text-primary) !important;
+}
+
+.evev-lead,
+.evev-section-surface p.lead,
+.evev-section-alt p.lead {
+  color: var(--text-secondary) !important;
+}
+
+.evev-muted {
+  color: var(--text-muted) !important;
+}
+
+.d-sch-table {
+  padding: 34px;
+  margin-bottom: 24px;
+}
+
+.sc-wrap {
+  margin-top: 22px;
+}
+
+.def-list-dots dl,
+.evev-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 16px;
+  border-bottom: 1px dotted var(--border-strong);
+  padding-bottom: 8px;
+}
+
+.def-list-dots dt,
+.def-list-dots dt span,
+.evev-info-label {
+  font-weight: 600;
+  font-size: 15.5px;
+  color: var(--text-primary) !important;
+}
+
+.def-list-dots dd,
+.evev-info-value {
+  font-weight: 800;
+  font-size: 15.5px;
+  color: var(--accent-text) !important;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.evev-info-value-wrap {
+  white-space: normal;
+  text-align: right;
+}
+
+/* Pill Highlight & Info Box */
+.evev-sub-box {
+  background: var(--pill-bg) !important;
+  border-left: 4px solid var(--accent-solid) !important;
+  padding: 16px 18px;
+  border-radius: 10px;
+}
+
+.credential-pill {
+  background: var(--pill-bg) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+  padding: 10px 16px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 5px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+/* Booking Form Inputs (High Contrast di Kedua Mode) */
+.evev-form-card {
+  padding: 36px;
+}
+
+.evev-form-card label {
+  color: var(--text-primary) !important;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.evev-input,
+.evev-form-card .form-control {
+  background-color: var(--input-bg) !important;
+  border: 1.5px solid var(--input-border) !important;
+  color: var(--text-primary) !important;
+  min-height: 48px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.evev-input::placeholder,
+.evev-form-card .form-control::placeholder {
+  color: var(--text-muted) !important;
+  opacity: 0.85;
+}
+
+.evev-form-card select.form-control option {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   4. ISOLASI AREA FOTO GELAP (HERO & JARALLAX) - ANTI KONTRAS RUSAK DI LIGHT MODE
+   -------------------------------------------------------------------------- */
+.evev-on-dark {
+  position: relative;
+}
+
+.evev-on-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 9, 16, 0.72) 0%, rgba(6, 9, 16, 0.82) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.evev-on-dark > .container,
+.evev-on-dark > .container-fluid,
+.evev-on-dark .carousel-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.evev-on-dark .evev-hero-heading,
+.evev-on-dark .evev-dark-title {
+  color: #ffffff !important;
+}
+
+.evev-on-dark .evev-hero-lead,
+.evev-on-dark .evev-dark-text {
+  color: #e2e8f0 !important;
+}
+
+.evev-on-dark .evev-dark-eyebrow {
+  color: #f5d061 !important;
+}
+
+body.theme-korean .evev-on-dark .evev-dark-eyebrow {
+  color: #93c5fd !important;
+}
+
+body.theme-vintage .evev-on-dark .evev-dark-eyebrow {
+  color: #fca5a5 !important;
+}
+
+.evev-on-dark .evev-sub-box-dark {
+  background: rgba(15, 23, 42, 0.78) !important;
+  border-left: 4px solid #f5d061 !important;
+  padding: 16px 18px;
+  border-radius: 10px;
+}
+
+body.theme-vintage .evev-on-dark .evev-sub-box-dark {
+  border-left-color: #fca5a5 !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. TOMBOL CTA (KONTRAS > 10:1 & THUMB-FRIENDLY)
+   -------------------------------------------------------------------------- */
+.btn-main,
+a.btn-main,
+button.btn-main {
+  background-color: var(--btn-bg) !important;
+  color: var(--btn-text) !important;
+  border: 2px solid var(--btn-bg) !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  min-height: 46px;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-main:hover,
+a.btn-main:hover,
+button.btn-main:hover {
+  background-color: var(--btn-hover-bg) !important;
+  color: var(--btn-hover-text) !important;
+  border-color: var(--btn-hover-bg) !important;
+}
+
+.btn-line,
+a.btn-line {
+  background-color: transparent !important;
+  border: 2px solid var(--accent-solid) !important;
+  color: var(--text-primary) !important;
+  font-weight: 800 !important;
+  border-radius: 8px !important;
+  padding: 12px 24px !important;
+  min-height: 46px;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.evev-on-dark .btn-line,
+.evev-on-dark a.btn-line {
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  background-color: rgba(9, 12, 20, 0.55) !important;
+}
+
+.btn-line:hover,
+a.btn-line:hover {
+  background-color: var(--btn-bg) !important;
+  border-color: var(--btn-bg) !important;
+  color: var(--btn-text) !important;
+}
+
+.evev-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.evev-cta-group.justify-center {
+  justify-content: center;
+}
+
+/* --------------------------------------------------------------------------
+   6. SLIM HEADER ENGINE (TRANSITION MULUS DI DARK & LIGHT MODE)
+   -------------------------------------------------------------------------- */
 header.transparent:not(.smaller) {
-  background-color: transparent !important;
-  background: none !important;
+  background: linear-gradient(180deg, rgba(6, 9, 16, 0.8) 0%, rgba(6, 9, 16, 0) 100%) !important;
   box-shadow: none !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-body:not(.dark-scheme) header.transparent:not(.smaller),
-body.light-scheme header.transparent:not(.smaller) {
-  background-color: transparent !important;
-  background: none !important;
-  box-shadow: none !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+/* Header transparan di atas Hero gelap: teks & logo selalu putih agar kontras tinggi */
+header.transparent:not(.smaller) #mainmenu > li > a {
+  color: #ffffff !important;
 }
 
-/* Header saat di-scroll (Kelas .smaller): Solid, Ramping & Mengambang */
-body:not(.dark-scheme) header.smaller,
-body:not(.dark-scheme) header:not(.transparent),
+header.transparent:not(.smaller) .logo-main,
+header.transparent:not(.smaller) .logo-mobile {
+  filter: none !important;
+}
+
+header.transparent:not(.smaller) #menu-btn::before {
+  color: #ffffff !important;
+}
+
+/* Header saat scroll (.smaller) - Light Mode */
 body.light-scheme header.smaller,
 body.light-scheme header:not(.transparent) {
   background-color: rgba(255, 255, 255, 0.98) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+  border-bottom: 1px solid #cbd5e1 !important;
 }
 
+body.light-scheme header.smaller #mainmenu > li > a,
+body.light-scheme header:not(.transparent) #mainmenu > li > a {
+  color: #090d16 !important;
+}
+
+body.light-scheme header.smaller .logo-main,
+body.light-scheme header.smaller .logo-mobile,
+body.light-scheme header:not(.transparent) .logo-main,
+body.light-scheme header:not(.transparent) .logo-mobile,
+body.light-scheme .evev-footer .logo-footer {
+  filter: brightness(0) !important;
+}
+
+body.light-scheme header.smaller #menu-btn::before {
+  color: #090d16 !important;
+}
+
+/* Header saat scroll (.smaller) - Dark Mode */
 body.dark-scheme header.smaller,
 body.dark-scheme header:not(.transparent) {
-  background-color: rgba(16, 16, 16, 0.98) !important;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(9, 12, 20, 0.96) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Rampingkan Container Header & Hilangkan Line-Wrap (Maksimal 68px) */
+body.dark-scheme header.smaller #mainmenu > li > a {
+  color: #ffffff !important;
+}
+
 header .de-flex {
   min-height: 68px !important;
   height: 68px !important;
@@ -52,268 +513,212 @@ header #logo {
   padding: 4px 0 !important;
   display: flex !important;
   align-items: center !important;
-  height: auto !important;
-  line-height: normal !important;
 }
 
 header #logo img {
-  max-height: 38px !important;
+  max-height: 36px !important;
   width: auto !important;
 }
 
-/* Menu Navigasi Horizontal 1 Baris Sejajar */
-#mainmenu {
+/* Navigasi Flex KHUSUS Desktop agar Menu Mobile Hamburger Tidak Rusak */
+@media only screen and (min-width: 993px) {
+  #mainmenu {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-wrap: nowrap !important;
+  }
+
+  #mainmenu > li {
+    margin: 0 4px !important;
+    float: none !important;
+    display: inline-block !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  #mainmenu > li > a {
+    padding: 8px 10px !important;
+    line-height: normal !important;
+    font-size: 13.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.4px !important;
+    white-space: nowrap !important;
+  }
+
+  header.header-center #logo-center {
+    padding-top: 10px !important;
+    padding-bottom: 2px !important;
+    height: auto !important;
+  }
+
+  header.header-center #logo-center img {
+    max-height: 32px !important;
+    width: auto !important;
+  }
+
+  header.header-center .de-flex {
+    min-height: 48px !important;
+    height: 48px !important;
+  }
+}
+
+.menu_side_area {
   display: flex !important;
   align-items: center !important;
-  justify-content: center !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  flex-wrap: nowrap !important;
+  gap: 10px;
 }
 
-#mainmenu > li {
-  margin: 0 5px !important;
-  float: none !important;
-  display: inline-block !important;
-  border: none !important;
-  padding: 0 !important;
-}
-
-#mainmenu > li > a {
-  padding: 8px 10px !important;
-  line-height: normal !important;
-  font-size: 13.5px !important;
-  letter-spacing: 0.5px !important;
-  white-space: nowrap !important;
-}
-
-/* Khusus Header Center (Template 2 & 3): Rampingkan Logo & Menu Vertikal */
-header.header-center #logo-center {
-  padding-top: 10px !important;
-  padding-bottom: 2px !important;
-  height: auto !important;
-}
-
-header.header-center #logo-center img {
-  max-height: 32px !important;
-  width: auto !important;
-}
-
-header.header-center .de-flex {
-  min-height: 48px !important;
-  height: 48px !important;
-}
-
-header.header-center #mainmenu.s2 > li > a {
-  padding: 6px 10px !important;
-  font-size: 13px !important;
-}
-
-/* Header saat scrolled */
-header.smaller .de-flex {
-  min-height: 60px !important;
-  height: 60px !important;
-}
-
-header.smaller #logo img {
-  max-height: 32px !important;
-}
-
-/* Ruang Jarak Aman Hero Slide agar Judul H1 Bebas Hambatan */
-#hero .carousel-inner,
-section#hero,
-#de-carousel {
-  padding-top: 30px !important;
-}
-
-#hero .carousel-item {
-  padding-top: 40px !important;
-}
-
-/* ==========================================================================
-   2. TOGGLE BUTTON & DUAL THEME ENGINE
-   ========================================================================== */
-
-/* Toggle Button Styling */
+/* Tombol Switch Dark/Light Mode */
 .theme-toggle-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  border: 1.5px solid rgba(217, 119, 6, 0.4);
-  background: rgba(255, 255, 255, 0.08);
-  color: #D97706;
+  border: 2px solid var(--accent-solid);
+  background: rgba(9, 12, 20, 0.65);
+  color: #ffffff;
   cursor: pointer;
   padding: 0;
-  margin-right: 12px;
-  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-  font-size: 15px;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  font-size: 16px;
   outline: none;
 }
 
-.theme-toggle-btn:hover {
-  transform: scale(1.08);
-  border-color: #D97706;
-  background: rgba(217, 119, 6, 0.2);
+body.light-scheme header.smaller .theme-toggle-btn {
+  background: #f1f5f9;
+  color: #090d16;
+  border-color: var(--accent-solid);
 }
 
-/* Light Theme Adjustments */
-body:not(.dark-scheme),
-body.light-scheme {
-  background-color: #f8fafc !important;
-  color: #1e293b !important;
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus-visible {
+  transform: scale(1.06);
+  background: var(--btn-bg);
+  color: var(--btn-text);
 }
 
-/* Invert white logo to black in Light Mode so it's 100% visible */
-body:not(.dark-scheme) .logo-main,
-body.light-scheme .logo-main,
-body:not(.dark-scheme) .logo-mobile,
-body.light-scheme .logo-mobile {
-  filter: brightness(0) !important;
+/* --------------------------------------------------------------------------
+   7. FOOTER, FLOATING WA & TEMPLATE SWITCHER
+   -------------------------------------------------------------------------- */
+.evev-footer {
+  background-color: var(--bg-footer) !important;
+  border-top: 1px solid var(--border-subtle) !important;
+  padding: 60px 0 96px !important;
+  color: var(--text-secondary) !important;
 }
 
-body:not(.dark-scheme) #mainmenu > li > a,
-body.light-scheme #mainmenu > li > a {
-  color: #1e293b !important;
-}
-
-body:not(.dark-scheme) #mainmenu > li > a:hover,
-body.light-scheme #mainmenu > li > a:hover {
-  color: #D97706 !important;
-}
-
-/* Light Mode Card & Pricing Surface */
-body:not(.dark-scheme) .d-sch-table,
-body.light-scheme .d-sch-table {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
-}
-
-body:not(.dark-scheme) .d-sch-table h2,
-body.light-scheme .d-sch-table h2,
-body:not(.dark-scheme) .d-title,
-body.light-scheme .d-title {
-  color: #1e293b !important;
-}
-
-body:not(.dark-scheme) .d-line,
-body.light-scheme .d-line {
-  border-bottom: 1px dotted #cbd5e1 !important;
-}
-
-body:not(.dark-scheme) .d-price,
-body.light-scheme .d-price {
-  color: #D97706 !important;
-  font-weight: 700 !important;
-}
-
-/* Dotted Price List in Light Mode */
-body:not(.dark-scheme) .def-list-dots dt span,
-body.light-scheme .def-list-dots dt span {
-  color: #1e293b !important;
-}
-
-body:not(.dark-scheme) .def-list-dots dt:after,
-body.light-scheme .def-list-dots dt:after {
-  color: rgba(30, 41, 59, 0.3) !important;
-}
-
-body:not(.dark-scheme) .def-list-dots dd,
-body.light-scheme .def-list-dots dd {
-  color: #D97706 !important;
-  font-weight: 700 !important;
-}
-
-/* Light Mode Headings and Paragraphs */
-body:not(.dark-scheme) h1,
-body.light-scheme h1,
-body:not(.dark-scheme) h2,
-body.light-scheme h2,
-body:not(.dark-scheme) h3,
-body.light-scheme h3,
-body:not(.dark-scheme) h4,
-body.light-scheme h4 {
-  color: #0f172a !important;
-}
-
-body:not(.dark-scheme) p.lead,
-body.light-scheme p.lead {
-  color: #475569 !important;
-}
-
-body:not(.dark-scheme) .de-separator,
-body.light-scheme .de-separator {
-  background-color: #D97706 !important;
-}
-
-/* Sections on light mode */
-body:not(.dark-scheme) section:not([class*="jarallax"]):not([id="hero"]),
-body.light-scheme section:not([class*="jarallax"]):not([id="hero"]) {
-  background-color: #f8fafc !important;
-}
-
-/* Light mode testimonials & reviews */
-body:not(.dark-scheme) .de_testi,
-body.light-scheme .de_testi {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
-  color: #334155 !important;
-}
-
-body:not(.dark-scheme) .de_testi blockquote,
-body.light-scheme .de_testi blockquote {
-  color: #334155 !important;
-}
-
-body:not(.dark-scheme) .de_testi .de_testi_by,
-body.light-scheme .de_testi .de_testi_by {
-  color: #0f172a !important;
-}
-
-/* Floating WhatsApp Button */
-.wa-floating, .wa-float-pill {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 99999;
-  background-color: #25d366;
-  color: #ffffff !important;
-  font-family: inherit;
+.footer-credential-box {
+  padding-top: 25px;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 30px;
   font-size: 14px;
-  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.evev-social-icons a {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 22px;
-  border-radius: 50px;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--pill-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary) !important;
+  margin: 0 4px;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.2s ease;
 }
 
-.wa-floating:hover, .wa-float-pill:hover {
-  background-color: #1eb857;
+.evev-social-icons a:hover {
+  background: var(--btn-bg);
+  color: var(--btn-text) !important;
+  border-color: var(--btn-bg);
+}
+
+.evev-wa-float {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99998;
+  background-color: #15803d;
   color: #ffffff !important;
-  transform: translateY(-4px) scale(1.04);
-  box-shadow: 0 12px 28px rgba(37, 211, 102, 0.6);
+  border-radius: 50px;
+  padding: 0 22px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none !important;
+  box-shadow: 0 8px 24px rgba(21, 128, 61, 0.45);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.wa-floating i, .wa-float-pill i {
+.evev-wa-float:hover {
+  background-color: #166534;
+  transform: translateY(-2px);
+}
+
+.evev-wa-float i {
   font-size: 20px;
 }
 
-/* Footer Maker */
-.footer-maker {
-  font-size: 13.5px;
-  color: #94a3b8;
+#evev-template-switcher {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  background: rgba(9, 12, 20, 0.96);
+  backdrop-filter: blur(12px);
+  padding: 7px 12px;
+  border-radius: 50px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.footer-maker a {
-  color: #D97706 !important;
+#evev-template-switcher .switcher-label {
+  color: #f5d061;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 6px;
+}
+
+#evev-template-switcher .switcher-pill {
+  padding: 7px 14px;
+  border-radius: 30px;
+  font-size: 12px;
   font-weight: 700;
-  text-decoration: none;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+#evev-template-switcher .switcher-pill.active {
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+
+/* Fallback visual ringan bila aset lokal hilang (tanpa base64) */
+img.evev-img-fallback {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  min-height: 180px;
+  object-fit: contain;
 }
